@@ -5,6 +5,14 @@ module.exports = {
     extend: {
       screens: { sm: "480px" },
     },
+    fontSize: {
+      "7xl": "14rem",
+      normal: "1.4rem",
+    },
+    lineHeight: {
+      "extra-loose": "2.5",
+      12: "3rem",
+    },
     fontFamily: {
       nunito: ["nunito", "sans-serif"],
     },
