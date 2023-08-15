@@ -8,7 +8,9 @@ module.exports = {
     },
     fontSize: {
       "7xl": "14rem",
+      xl: "4rem",
       normal: "1.4rem",
+      justsmall: "2.4rem",
     },
     lineHeight: {
       "extra-loose": "2.5",
