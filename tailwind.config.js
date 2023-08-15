@@ -8,6 +8,7 @@ module.exports = {
     },
     fontSize: {
       "7xl": "14rem",
+      "2xl": "7rem",
       xl: "4rem",
       normal: "1.4rem",
       justsmall: "2.4rem",
@@ -15,6 +16,7 @@ module.exports = {
     lineHeight: {
       "extra-loose": "2.5",
       12: "12rem",
+      5: "6rem",
     },
     fontFamily: {
       nunito: ["nunito", "sans-serif"],

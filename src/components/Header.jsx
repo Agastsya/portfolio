@@ -21,7 +21,7 @@ const Header = () => {
         <h1>
           <a href="#home">Agastya Joshi</a>
         </h1>
-        <div className="flex gap-12 dark:text-rose-200">
+        <div className="flex sm:gap-3 md:gap-6 lg:gap-12 dark:text-rose-200">
           <span>
             <a href="#home">Home</a>
           </span>
