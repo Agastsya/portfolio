@@ -1,79 +1,55 @@
-import React, { useEffect } from "react";
-import mainlogo from "../assets/squarylines.svg";
-import moon from "../assets/moon.svg";
+import React, { useEffect, useState } from "react";
+import sun from "../assets/sun.png";
+import moon from "../assets/moon.png";
 
 const Header = () => {
+  const [theme, setTheme] = useState("Light");
   useEffect(() => {
-    const hamburger = document.querySelector("#hamburger");
-    const menu = document.querySelector("#menu");
-    hamburger.addEventListener("click", () => {
-      menu.classList.toggle("hidden");
-    });
-  });
+    if (theme === "Dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
 
+  const handleSwitch = () => {
+    setTheme(theme === "Dark" ? "Light" : "Dark");
+  };
   return (
     <>
-      <nav className="bg-transparent flex justify-between max-w-full">
-        <div className="flex justify-start items-center  mx-10 py-5 ">
+      <div className="flex justify-between mx-10 font-nunito font-normal py-5 dark:text-rose-200">
+        <h1>
+          <a href="#home">Agastya Joshi</a>
+        </h1>
+        <div className="flex gap-12 dark:text-rose-200">
           <span>
-            <img src={mainlogo} alt="mainlogo" className="h-14 w-14 " />
+            <a href="#home">Home</a>
           </span>
-          <span className="text-2xl font-bold text-indigo-900 ">Portfolio</span>
+          <span>
+            <a href="#skills">Skills</a>
+          </span>
+          <span>
+            <a href="#work">Work</a>
+          </span>
+          <span>
+            <a href="#contact">Contact Us</a>
+          </span>
+          <span>
+            <a href="#drop">Drop me a line</a>
+          </span>
         </div>
-        <ul className="hidden md:flex space-x-10 my-auto mx-auto  items-center">
-          <li>
-            <a href="#1" className=" hover:text-gray-500">
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="#1" className=" hover:text-gray-500">
-              My Work
-            </a>
-          </li>
-          <li>
-            <a href="#1" className=" text-white hover:text-gray-500">
-              About Me
-            </a>
-          </li>
-          <li>
-            <a href="#1" className="text-white hover:text-gray-500 ">
-              Contact Me
-            </a>
-          </li>{" "}
-        </ul>
-        <img
-          src={moon}
-          alt="moon"
-          className=" hidden md:block h-7 w-7 my-auto mx-10"
-        />
+        <button onClick={handleSwitch} className="flex space-x-2">
+          {theme === "Dark" ? (
+            <img src={moon} className="flex h-5 w-5" alt="" />
+          ) : (
+            <img src={sun} className="flex h-5 w-5" alt="" />
+          )}
 
-        <ul
-          id="hamburger"
-          className="my-auto md:hidden space-y-1 z-20 bg-white p-2 rounded-xl"
-        >
-          <li className="w-6 h-0.5 bg-black"></li>
-          <li className="w-6 h-0.5 bg-black"></li>
-          <li className="w-6 h-0.5 bg-black"></li>
-        </ul>
-        <ul
-          id="menu"
-          className="md:hidden bg-indigo-400 text-white absolute h-full w-60 pl-10 py-10 flex-row-reverse "
-        >
-          <li className="py-10">
-            <a href="#1">Home</a>
-          </li>
-          <li className="py-10">
-            <a href="#1">My Work</a>
-          </li>
-          <li className="py-10">
-            <a href="#1">About Me</a>
-          </li>
-          <li className="py-10">
-            <a href="#1">Contact Me</a>
-          </li>{" "}
-        </ul>
-      </nav>
+          <span className="dark-text text-sm">
+            {theme === "Dark" ? "Light" : "Dark"}
+          </span>
+        </button>
+      </div>
     </>
   );
 };

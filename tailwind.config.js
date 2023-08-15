@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       screens: { sm: "480px" },
@@ -11,7 +12,7 @@ module.exports = {
     },
     lineHeight: {
       "extra-loose": "2.5",
-      12: "3rem",
+      12: "12rem",
     },
     fontFamily: {
       nunito: ["nunito", "sans-serif"],
