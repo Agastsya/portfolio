@@ -28,12 +28,12 @@ const Home = () => {
 
       <div className=" h-screen  bg-rose-200 dark:bg-black font-nunito max-h-full relative max-w-screen">
         <Header />
-        <div className="mx-10">
-          <div className="text-justsmall leading-small mr-5  text-black dark:text-rose-200 md:leading-5 absolute bottom-9 md:text-2xl lg:text-7xl lg:leading-12">
+        <div className="mx-8 md:mx-10">
+          <div className="text-justsmall leading-small  text-black dark:text-rose-200 md:leading-5 absolute bottom-9 md:text-2xl lg:text-7xl lg:leading-12">
             <span>Website</span> Developer
           </div>
 
-          <div className="absolute right-24 bottom-32">
+          <div className="absolute right-24 bottom-24">
             <NavLink
               to={"https://github.com/agastsya"}
               className="text-black dark:text-rose-200"
@@ -43,7 +43,7 @@ const Home = () => {
             </NavLink>
           </div>
 
-          <div className="absolute right-44 bottom-32">
+          <div className="absolute right-44 bottom-24">
             <NavLink
               to={"https://www.linkedin.com/in/agastsya-joshi-b6a929202/"}
               className="text-black dark:text-rose-200"
@@ -53,9 +53,11 @@ const Home = () => {
             </NavLink>
           </div>
 
-          <div className="absolute right-64 bottom-32">
+          <div className="absolute right-64 bottom-24">
             <NavLink
-              to={"https://www.linkedin.com/in/agastsya-joshi-b6a929202/"}
+              to={
+                "https://drive.google.com/file/d/1Io5juh3IeLqATnmTpEhuR5TVOF6lYnEy/view?usp=sharing"
+              }
               className="text-black dark:text-rose-200"
             >
               <img src={download} className="w-14" alt="" />
@@ -109,7 +111,7 @@ const Home = () => {
       </div>
       {/* Skills Page of portfolio*/}
       <div className="flex flex-col dark:bg-black font-nunito">
-        <div className="h-72 md:h-screen max-w-screen flex justify-center mx-10">
+        <div className="h-72 md:h-screen max-w-screen flex justify-center md:mx-10">
           <img src={mountains} alt="" />
         </div>
 
@@ -118,14 +120,14 @@ const Home = () => {
             <span className="text-justsmall md:text-7xl pt-16 pb-10">
               My Skills
             </span>
-            <span className=" w-3/4 md:w-1/4 md:h-fit ">
+            <span className=" w-full md:w-1/4 md:h-fit ">
               {" "}
               I craft interactive web experiences using JavaScript, ensure
               elegant structure with HTML/CSS, and build dynamic UIs through
               React.
             </span>
           </div>
-          <div className="h-fit max-w-screen grid grid-cols-3 grid-rows-3 align-bottom gap-x-10 gap-y-10 mx-10 my-10 pb-52">
+          <div className="h-fit max-w-screen grid grid-cols-3 grid-rows-3 align-bottom gap-x-10 gap-y-10 mx-10 my-10 pt-20 pb-20">
             <SkillCard name="React" file={react} />
             <SkillCard name="Javascript" file={javascript} />
             <SkillCard name="Nodejs" file={nodejs} />
@@ -137,7 +139,7 @@ const Home = () => {
             <SkillCard name="Java" file={java} />{" "}
           </div>
         </div>
-        <div className="max-w-screen mx-10 object-cover">
+        <div className="max-w-screen md:mx-10 object-cover">
           <img src={landfall} alt="" />
         </div>
       </div>
