@@ -20,6 +20,7 @@ import github from "../assets/github.png";
 import linkedin from "../assets/linkedin.png";
 import download from "../assets/download.png";
 import { NavLink } from "react-router-dom";
+import Contact from "./Contact";
 
 const Home = () => {
   return (
@@ -127,7 +128,7 @@ const Home = () => {
               React.
             </span>
           </div>
-          <div className="h-fit max-w-screen grid grid-cols-3 grid-rows-3 align-bottom gap-x-10 gap-y-10 mx-10 my-10 pt-20 pb-20">
+          <div className="h-fit max-w-screen grid grid-cols-3 grid-rows-3 align-bottom gap-x-10 gap-y-10 mx-10 my-10 pb-20">
             <SkillCard name="React" file={react} />
             <SkillCard name="Javascript" file={javascript} />
             <SkillCard name="Nodejs" file={nodejs} />
@@ -143,7 +144,7 @@ const Home = () => {
           <img src={landfall} alt="" />
         </div>
       </div>
-      <div className="bg-rose-200 dark:bg-black font-nunito">
+      <div id="projects" className="bg-rose-200 dark:bg-black font-nunito">
         <h1 className="text-justsmall text-black md:text-7xl dark:text-rose-200 mx-10 pt-16">
           My Work
         </h1>
@@ -228,11 +229,14 @@ const Home = () => {
       </div>
 
       <div className="bg-rose-200 dark:bg-black font-nunito pt-16">
-        <h1 className="text-justsmall text-black md:text-7xl dark:text-rose-200 mx-10">
+        <h1
+          id="otherprojects"
+          className="text-justsmall text-black md:text-7xl dark:text-rose-200 mx-10"
+        >
           Other Projects
         </h1>
-        <div className="text-black dark:text-rose-200 md:mx-10 mx-10 pt-32 md:space-y-16 md:no-underline md:px-60">
-          <h1 className="text-black dark:text-rose-200 text-justsmall underline md:no-underline ">
+        <div className="text-black dark:text-rose-200 md:mx-10 mx-10 pt-32 md:space-y-16 md:px-10 lg:px-60">
+          <h1 className="text-black dark:text-rose-200 text-justsmall underline  ">
             Work Mitra Showcased at RECKON 4.0 Hackathon Jodhpur
           </h1>
           <ul className="space-y-6">
@@ -253,8 +257,8 @@ const Home = () => {
           </ul>
         </div>
 
-        <div className="text-black dark:text-rose-200 md:mx-10 mx-10 pt-32 md:space-y-16 md:no-underline md:px-60">
-          <h1 className="text-black dark:text-rose-200 text-justsmall underline md:no-underline">
+        <div className="text-black dark:text-rose-200 md:mx-10 mx-10 pt-32 md:space-y-16 md:px-10 lg:px-60">
+          <h1 className="text-black dark:text-rose-200 text-justsmall underline ">
             Article Publishing Website
           </h1>
           <ul className="space-y-6">
@@ -272,8 +276,8 @@ const Home = () => {
           </ul>
         </div>
 
-        <div className="text-black dark:text-rose-200 md:mx-10 mx-10 pt-32 md:space-y-16 md:no-underline md:px-60">
-          <h1 className="text-black dark:text-rose-200 text-justsmall underline md:no-underline">
+        <div className="text-black dark:text-rose-200 md:mx-10 mx-10 pt-32 md:space-y-16 md:px-10 lg:px-60">
+          <h1 className="text-black dark:text-rose-200 text-justsmall underline ">
             Chatting Website
           </h1>
           <ul className="space-y-6">
@@ -288,6 +292,7 @@ const Home = () => {
           </ul>
         </div>
       </div>
+      <Contact />
     </>
   );
 };

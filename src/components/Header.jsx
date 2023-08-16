@@ -31,13 +31,13 @@ const Header = () => {
             <a href="#skills">Skills</a>
           </span>
           <span>
-            <a href="#work">Work</a>
+            <a href="#projects">Projects</a>
           </span>
           <span>
-            <a href="#contact">Contact Us</a>
+            <a href="#otherprojects">Other Projects</a>
           </span>
           <span>
-            <a href="#drop">Drop me a line</a>
+            <a href="#contact">Drop me a line</a>
           </span>
         </div>
         <button onClick={handleSwitch} className="flex space-x-2">
