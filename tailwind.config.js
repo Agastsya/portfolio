@@ -12,11 +12,14 @@ module.exports = {
       xl: "4rem",
       normal: "1.4rem",
       justsmall: "2.4rem",
+      small: "0.8rem",
+      normal: "1rem",
     },
     lineHeight: {
       "extra-loose": "2.5",
       12: "12rem",
       5: "6rem",
+      small: "2.8rem",
     },
     fontFamily: {
       nunito: ["nunito", "sans-serif"],
