@@ -14,6 +14,9 @@ import mongodb from "../assets/mongodb.png";
 import linux from "../assets/linux.png";
 import java from "../assets/java.png";
 import mountains from "../assets/mountains.png";
+import cryptocrash from "../assets/cryptocrash.png";
+import thelysian from "../assets/thelysian.png";
+import github from "../assets/github.png";
 
 const Home = () => {
   return (
@@ -72,16 +75,22 @@ const Home = () => {
         </div>
       </div>
       {/* Skills Page of portfolio*/}
-      <div className="flex flex-col dark:bg-black">
+      <div className="flex flex-col dark:bg-black font-nunito">
         <div className="h-72 md:h-screen max-w-screen flex justify-center mx-10">
           <img src={mountains} alt="" />
         </div>
 
         <div id="skills">
-          <div className="h-fit max-w-screen grid grid-cols-3 grid-rows-4 align-bottom gap-x-10 gap-y-10 mx-10 my-10">
-            <div className=" font-semibold col-span-3 bg-transparent my-auto mx-auto text-xl dark:text-rose-400">
-              My Skills
-            </div>
+          <div className="text-black dark:text-rose-200 mx-10 flex items-center">
+            <span className="text-7xl">My Skills</span>
+            <span className=" w-1/4 h-fit ">
+              {" "}
+              I craft interactive web experiences using JavaScript, ensure
+              elegant structure with HTML/CSS, and build dynamic UIs through
+              React.
+            </span>
+          </div>
+          <div className="h-fit max-w-screen grid grid-cols-3 grid-rows-3 align-bottom gap-x-10 gap-y-10 mx-10 my-10">
             <SkillCard name="React" file={react} />
             <SkillCard name="Javascript" file={javascript} />
             <SkillCard name="Nodejs" file={nodejs} />
@@ -95,6 +104,144 @@ const Home = () => {
         </div>
         <div className="max-w-screen mx-10 object-cover">
           <img src={landfall} alt="" />
+        </div>
+      </div>
+      <div className="bg-rose-200 dark:bg-black font-nunito">
+        <h1 className="text-black text-7xl dark:text-rose-200 mx-10">
+          My Work
+        </h1>
+
+        <div className="mx-10 pt-28">
+          <a href="https://thelysian.vercel.app" className="flex flex-row">
+            <ul className="p-10 space-y-5 text-black dark:text-rose-200">
+              <h1 className="text-justsmall">Responsive Shopping Website</h1>
+              <li>
+                This web app provides cryptocurrency insights, allowing users to
+                access the latest information about various cryptocurrencies and
+                make informed investment decisions.
+              </li>
+              <li>
+                This website leverages the CoinGecko API to provide users with
+                real-time cryptocurrency information, which is then presented
+                graphically using Chart.js. Additionally, users have the
+                flexibility to customize the displayed currency according to
+                their preference.
+              </li>{" "}
+              <li>
+                The technology stack employed includes HTML, CSS, JavaScript,
+                and ReactJS. These components work in tandem to interact with
+                APIs, facilitating the utilization of the website's features.
+              </li>
+            </ul>
+            <img
+              src={thelysian}
+              className=" shadow-2xl shadow-rose-700 w-1/2"
+              data-aos="flip-left"
+              alt=""
+              srcset=""
+            />
+          </a>
+          <a href="https://github.com/Agastsya/cryptowebapp">
+            <img src={github} className="w-14 ml-10 pt-5" alt="" />
+          </a>
+        </div>
+
+        <div className="mx-10 pt-56">
+          <a href="https://cryptocrash.vercel.app" className="flex flex-row">
+            <img
+              src={cryptocrash}
+              className=" shadow-2xl shadow-rose-700 w-1/2"
+              data-aos="flip-left"
+              alt=""
+              srcset=""
+            />
+            <ul className="p-10 space-y-5 text-black dark:text-rose-200">
+              <h1 className="text-justsmall">
+                Cryptocurrency Insights Web App
+              </h1>
+              <li>
+                This web app provides cryptocurrency insights, allowing users to
+                access the latest information about various cryptocurrencies and
+                make informed investment decisions.
+              </li>
+              <li>
+                This website leverages the CoinGecko API to provide users with
+                real-time cryptocurrency information, which is then presented
+                graphically using Chart.js. Additionally, users have the
+                flexibility to customize the displayed currency according to
+                their preference.
+              </li>{" "}
+              <li>
+                The technology stack employed includes HTML, CSS, JavaScript,
+                and ReactJS. These components work in tandem to interact with
+                APIs, facilitating the utilization of the website's features.
+              </li>
+            </ul>
+          </a>
+          <a href="https://github.com/Agastsya/cryptowebapp">
+            <img src={github} className="w-14 pt-5" alt="" />
+          </a>
+        </div>
+      </div>
+
+      <div className="bg-rose-200 dark:bg-black font-nunito pt-16">
+        <h1 className="text-black text-5xl dark:text-rose-200 mx-10">
+          Other Projects
+        </h1>
+        <div className="text-black dark:text-rose-200 mx-10 px-56 pt-24 space-y-10">
+          <h1 className="text-black dark:text-rose-200 text-justsmall">
+            Work Mitra Showcased at RECKON 4.0 Hackathon Jodhpur
+          </h1>
+          <ul className="space-y-6">
+            <li>
+              "Labour Mitra" is your go-to registry for information on skilled
+              professionals, encompassing laborers, electricians, and
+              carpenters. The platform offers detailed profiles and online
+              accessibility, making the hunt for skilled tradespeople a breeze.
+            </li>{" "}
+            <li>
+              With "Labour Mitra," finding the right skilled workers is a
+              breeze. Its detailed profiles and online presence simplify the
+              process of locating professionals like laborers, electricians, and
+              carpenters, saving visitors valuable time and effort in their
+              search.
+            </li>
+            <li>Collabrators: @KushKaushik @ShubhamGoel @Tushar Gautam</li>
+          </ul>
+        </div>
+
+        <div className="text-black dark:text-rose-200 mx-10 px-56 pt-24 space-y-10">
+          <h1 className="text-black dark:text-rose-200 text-justsmall">
+            Article Publishing Website
+          </h1>
+          <ul className="space-y-6">
+            <li>
+              Developed a dynamic article publishing website that enables users
+              to create and submit their articles. Utilized MongoDB for data
+              management, HTML/CSS for frontend design, Javascript for
+              interactivity, and Node.js for backend functionality. Implemented
+              a seamless process for article submission, publication, and user
+              access to view published content.
+            </li>{" "}
+            <a href="https://github.com/Agastsya/blogging-website">
+              <img src={github} className="w-14 pt-5" alt="" />
+            </a>
+          </ul>
+        </div>
+        <div className="text-black dark:text-rose-200 mx-10 px-56 pt-24 space-y-10">
+          <h1 className="text-black dark:text-rose-200 text-justsmall">
+            Chatting Website
+          </h1>
+          <ul className="space-y-6">
+            <li>
+              Developed ad chatting website where Muliple users can message each
+              other and communicate with each other.This website is made using
+              sockets,javascript,html ,css
+            </li>{" "}
+            <a href="https://github.com/Agastsya/chatting-bros">
+              <img src={github} className="w-14 pt-5" alt="" />
+            </a>
+          </ul>
         </div>
       </div>
     </>
