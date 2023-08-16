@@ -3,7 +3,7 @@ import sun from "../assets/sun.png";
 import moon from "../assets/moon.png";
 
 const Header = () => {
-  const [theme, setTheme] = useState("Light");
+  const [theme, setTheme] = useState("Dark");
   useEffect(() => {
     if (theme === "Dark") {
       document.documentElement.classList.add("dark");

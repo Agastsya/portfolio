@@ -17,6 +17,9 @@ import mountains from "../assets/mountains.png";
 import cryptocrash from "../assets/cryptocrash.png";
 import thelysian from "../assets/thelysian.png";
 import github from "../assets/github.png";
+import linkedin from "../assets/linkedin.png";
+import download from "../assets/download.png";
+import { NavLink } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -28,6 +31,36 @@ const Home = () => {
         <div className="mx-10">
           <div className="text-justsmall leading-small mr-5  text-black dark:text-rose-200 md:leading-5 absolute bottom-9 md:text-2xl lg:text-7xl lg:leading-12">
             <span>Website</span> Developer
+          </div>
+
+          <div className="absolute right-24 bottom-32">
+            <NavLink
+              to={"https://github.com/agastsya"}
+              className="text-black dark:text-rose-200"
+            >
+              <img src={github} className="w-14" alt="" />
+              <h1 className="text-small text-center">Github</h1>
+            </NavLink>
+          </div>
+
+          <div className="absolute right-44 bottom-32">
+            <NavLink
+              to={"https://www.linkedin.com/in/agastsya-joshi-b6a929202/"}
+              className="text-black dark:text-rose-200"
+            >
+              <img src={linkedin} className="w-14" alt="" />
+              <h1 className="text-small text-center">Linkedin</h1>
+            </NavLink>
+          </div>
+
+          <div className="absolute right-64 bottom-32">
+            <NavLink
+              to={"https://www.linkedin.com/in/agastsya-joshi-b6a929202/"}
+              className="text-black dark:text-rose-200"
+            >
+              <img src={download} className="w-14" alt="" />
+              <h1 className="text-small text-center">Resume</h1>
+            </NavLink>
           </div>
 
           <img
@@ -81,16 +114,18 @@ const Home = () => {
         </div>
 
         <div id="skills">
-          <div className="text-black dark:text-rose-200 mx-10 flex items-center">
-            <span className="text-7xl">My Skills</span>
-            <span className=" w-1/4 h-fit ">
+          <div className="text-black dark:text-rose-200 mx-10 flex md:flex-row items-center flex-col">
+            <span className="text-justsmall md:text-7xl pt-16 pb-10">
+              My Skills
+            </span>
+            <span className=" w-3/4 md:w-1/4 md:h-fit ">
               {" "}
               I craft interactive web experiences using JavaScript, ensure
               elegant structure with HTML/CSS, and build dynamic UIs through
               React.
             </span>
           </div>
-          <div className="h-fit max-w-screen grid grid-cols-3 grid-rows-3 align-bottom gap-x-10 gap-y-10 mx-10 my-10">
+          <div className="h-fit max-w-screen grid grid-cols-3 grid-rows-3 align-bottom gap-x-10 gap-y-10 mx-10 my-10 pb-52">
             <SkillCard name="React" file={react} />
             <SkillCard name="Javascript" file={javascript} />
             <SkillCard name="Nodejs" file={nodejs} />
@@ -107,13 +142,16 @@ const Home = () => {
         </div>
       </div>
       <div className="bg-rose-200 dark:bg-black font-nunito">
-        <h1 className="text-black text-7xl dark:text-rose-200 mx-10">
+        <h1 className="text-justsmall text-black md:text-7xl dark:text-rose-200 mx-10 pt-16">
           My Work
         </h1>
 
-        <div className="mx-10 pt-28">
-          <a href="https://thelysian.vercel.app" className="flex flex-row">
-            <ul className="p-10 space-y-5 text-black dark:text-rose-200">
+        <div className="mx-0 md:mx-10 pt-10">
+          <a
+            href="https://thelysian.vercel.app"
+            className="flex flex-col md:mx-10 lg:flex-row"
+          >
+            <ul className="p-10 space-y-5 text-black md:mr-0  dark:text-rose-200">
               <h1 className="text-justsmall">Responsive Shopping Website</h1>
               <li>
                 This web app provides cryptocurrency insights, allowing users to
@@ -135,26 +173,22 @@ const Home = () => {
             </ul>
             <img
               src={thelysian}
-              className=" shadow-2xl shadow-rose-700 w-1/2"
+              className=" shadow-2xl shadow-rose-700 w-80 md:w-1/2 ml-10"
               data-aos="flip-left"
               alt=""
               srcset=""
             />
           </a>
-          <a href="https://github.com/Agastsya/cryptowebapp">
-            <img src={github} className="w-14 ml-10 pt-5" alt="" />
+          <a href="https://github.com/Agastsya/the_elysian">
+            <img src={github} className="w-14 ml-10  pt-5" alt="" />
           </a>
         </div>
 
-        <div className="mx-10 pt-56">
-          <a href="https://cryptocrash.vercel.app" className="flex flex-row">
-            <img
-              src={cryptocrash}
-              className=" shadow-2xl shadow-rose-700 w-1/2"
-              data-aos="flip-left"
-              alt=""
-              srcset=""
-            />
+        <div className="mx-0 md:mx-10 pt-28">
+          <a
+            href="https://cryptocrash.vercel.app"
+            className="flex flex-col md:mx-10 lg:flex-row"
+          >
             <ul className="p-10 space-y-5 text-black dark:text-rose-200">
               <h1 className="text-justsmall">
                 Cryptocurrency Insights Web App
@@ -177,19 +211,26 @@ const Home = () => {
                 APIs, facilitating the utilization of the website's features.
               </li>
             </ul>
+            <img
+              src={cryptocrash}
+              className=" shadow-2xl shadow-rose-700 w-80 md:w-1/2 ml-10 "
+              data-aos="flip-left"
+              alt=""
+              srcset=""
+            />
           </a>
           <a href="https://github.com/Agastsya/cryptowebapp">
-            <img src={github} className="w-14 pt-5" alt="" />
+            <img src={github} className="w-14 ml-10 pt-5" alt="" />
           </a>
         </div>
       </div>
 
       <div className="bg-rose-200 dark:bg-black font-nunito pt-16">
-        <h1 className="text-black text-5xl dark:text-rose-200 mx-10">
+        <h1 className="text-justsmall text-black md:text-7xl dark:text-rose-200 mx-10">
           Other Projects
         </h1>
-        <div className="text-black dark:text-rose-200 mx-10 px-56 pt-24 space-y-10">
-          <h1 className="text-black dark:text-rose-200 text-justsmall">
+        <div className="text-black dark:text-rose-200 md:mx-10 mx-10 pt-32 md:space-y-16 md:no-underline md:px-60">
+          <h1 className="text-black dark:text-rose-200 text-justsmall underline md:no-underline ">
             Work Mitra Showcased at RECKON 4.0 Hackathon Jodhpur
           </h1>
           <ul className="space-y-6">
@@ -210,8 +251,8 @@ const Home = () => {
           </ul>
         </div>
 
-        <div className="text-black dark:text-rose-200 mx-10 px-56 pt-24 space-y-10">
-          <h1 className="text-black dark:text-rose-200 text-justsmall">
+        <div className="text-black dark:text-rose-200 md:mx-10 mx-10 pt-32 md:space-y-16 md:no-underline md:px-60">
+          <h1 className="text-black dark:text-rose-200 text-justsmall underline md:no-underline">
             Article Publishing Website
           </h1>
           <ul className="space-y-6">
@@ -228,8 +269,9 @@ const Home = () => {
             </a>
           </ul>
         </div>
-        <div className="text-black dark:text-rose-200 mx-10 px-56 pt-24 space-y-10">
-          <h1 className="text-black dark:text-rose-200 text-justsmall">
+
+        <div className="text-black dark:text-rose-200 md:mx-10 mx-10 pt-32 md:space-y-16 md:no-underline md:px-60">
+          <h1 className="text-black dark:text-rose-200 text-justsmall underline md:no-underline">
             Chatting Website
           </h1>
           <ul className="space-y-6">
@@ -238,7 +280,7 @@ const Home = () => {
               other and communicate with each other.This website is made using
               sockets,javascript,html ,css
             </li>{" "}
-            <a href="https://github.com/Agastsya/chatting-bros">
+            <a href="https://github.com/Agastsya/Chatting-App001">
               <img src={github} className="w-14 pt-5" alt="" />
             </a>
           </ul>
