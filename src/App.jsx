@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, Suspense, lazy } from "react";
+const ThreeScene = lazy(() => import("./ThreeScenes.jsx"));
 import {
   Terminal, Trophy, ShieldCheck, Database, Server, Cloud, GitBranch,
   Mail, Download, ExternalLink, ArrowRight, Lock, Activity, FileText,
@@ -50,6 +51,7 @@ const PROJECTS = [
       "Took 1st rank at Microsoft Hackmania 2025 after presenting the architecture and results to a national-level technical panel.",
     tech: ["Python", "Django", "REST APIs", "Sonar AI", "Docker", "Linux"],
     repo: LINKS.scamuraiRepo,
+    artVariant: "network",
   },
   {
     id: "spawnv2",
@@ -70,6 +72,7 @@ const PROJECTS = [
       "Demonstrated end-to-end polyglot service integration, the kind of architecture used in real payment and data platforms.",
     tech: ["Node.js", "Express.js", "Python", "React", "Docker", "Linux"],
     repo: LINKS.spawnRepo,
+    artVariant: "streams",
   },
   {
     id: "kenyon",
@@ -90,6 +93,7 @@ const PROJECTS = [
       "Reduced retrieval latency on large datasets, delivered stable releases across dev/ops/stakeholder teams, and authored the SOPs, runbooks and API docs the platform runs on.",
     tech: ["Python", "Java", "PostgreSQL", "MySQL", "Docker", "CI/CD", "Nginx"],
     repo: null,
+    artVariant: "terrain",
   },
 ];
 
@@ -175,7 +179,7 @@ content-type: application/json
    STYLES: amber-phosphor operations console
    ============================================================ */
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;600&display=swap');
 
 :root {
   --bg: #0B0D12;
@@ -205,6 +209,16 @@ a { color: inherit; text-decoration: none; }
 .wrap { max-width: 1440px; margin: 0 auto; padding: 0 48px; position: relative; z-index: 1; }
 @media (max-width: 768px) { .wrap { padding: 0 24px; } }
 .mono { font-family: var(--mono); }
+.hand { font-family: 'Caveat', cursive; font-size: 19px; color: var(--amber-bright);
+  letter-spacing: 0.01em; opacity: 0.85; }
+
+/* three.js scenes */
+.three-scene { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+
+/* scroll progress */
+.scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60;
+  background: linear-gradient(90deg, var(--amber), var(--amber-bright));
+  transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
 
 /* nav */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50;
@@ -221,6 +235,11 @@ a { color: inherit; text-decoration: none; }
   padding: 8px 14px; border-radius: 4px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
 .nav-cta:hover { background: var(--amber-bright); }
 @media (max-width: 820px) { .nav-links { display: none; } }
+@media (max-width: 700px) {
+  .nav-brand { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nav-brand .dim { display: none; }
+  .nav-cta { white-space: nowrap; flex-shrink: 0; }
+}
 
 /* status ticker */
 .ticker { border-bottom: 1px solid var(--line-soft); background: var(--panel); }
@@ -237,6 +256,11 @@ a { color: inherit; text-decoration: none; }
 /* hero */
 .hero { padding: 0 0 80px; position: relative; overflow: hidden; }
 .hero .wrap, .hero .ticker { position: relative; z-index: 1; }
+.hero-art { position: absolute; left: 0; right: 0; top: 6%; bottom: -10%;
+  opacity: 0.55; z-index: 0; pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 30% 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 30% 70%, transparent 100%); }
+@media (max-width: 768px) { .hero-art { opacity: 0.3; } }
 .orb { position: absolute; left: 50%; top: 54%; width: 700px; height: 700px;
   transform: translate(-50%, -50%); pointer-events: none; z-index: 0; overflow: hidden;
   background:
@@ -264,7 +288,8 @@ a { color: inherit; text-decoration: none; }
 .hero-id { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
 .portrait { width: 96px; height: 96px; border-radius: 14px; overflow: hidden; position: relative;
   border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.45), 0 0 30px rgba(232,168,76,0.08);
-  flex-shrink: 0; }
+  flex-shrink: 0; transform: rotate(-2.5deg); transition: transform .3s ease; }
+.hero-id:hover .portrait { transform: rotate(0deg) scale(1.03); }
 .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .portrait::after { content: ""; position: absolute; inset: 0;
   background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(11,13,18,0.06) 2px 4px); }
@@ -283,7 +308,10 @@ a { color: inherit; text-decoration: none; }
 .eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--amber-dim); }
 .hero h1 { font-size: clamp(40px, 6vw, 68px); font-weight: 900; line-height: 1.02;
   letter-spacing: -0.02em; }
-.hero h1 .amber { color: var(--amber); }
+.hero h1 .amber { color: var(--amber); position: relative; white-space: nowrap; }
+.hero h1 .amber::after { content: ""; position: absolute; left: 2%; right: 2%; bottom: -0.08em;
+  height: 0.18em; opacity: 0.9; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 Q 28 3 58 7.5 T 118 5' fill='none' stroke='%23E8A84C' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
 .hero-sub { margin-top: 22px; color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 560px; }
 .hero-sub strong { color: var(--ink); font-weight: 600; }
 .hero-actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
@@ -311,7 +339,7 @@ a { color: inherit; text-decoration: none; }
 @keyframes blink { 50% { opacity: 0; } }
 
 /* sections */
-section { padding: 88px 0; border-top: 1px solid var(--line-soft); }
+section { padding: 88px 0; border-top: 1px solid var(--line-soft); scroll-margin-top: 60px; }
 .sec-head { margin-bottom: 44px; }
 .sec-head h2 { font-size: clamp(26px, 3.4vw, 38px); font-weight: 800; letter-spacing: -0.015em; }
 .sec-head p { margin-top: 10px; color: var(--muted); max-width: 760px; line-height: 1.65; }
@@ -319,13 +347,25 @@ section { padding: 88px 0; border-top: 1px solid var(--line-soft); }
   text-transform: uppercase; margin-bottom: 12px; }
 
 /* reveal */
-.rv { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.rv { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.22,.9,.35,1); }
+.rv.rv-left { transform: translateX(-36px); }
+.rv.rv-right { transform: translateX(36px); }
+.rv.rv-zoom { transform: scale(0.94) translateY(14px); }
 .rv.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
-  .rv { opacity: 1; transform: none; transition: none; }
+  .rv, .rv.rv-left, .rv.rv-right, .rv.rv-zoom { opacity: 1; transform: none; transition: none; }
   .dot, .cursor, .orb, .orb::before { animation: none; }
   html { scroll-behavior: auto; }
 }
+
+/* art bands */
+.art-band { position: relative; overflow: hidden; border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft); }
+.art-band-img { opacity: 0.85; }
+.art-band::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, var(--bg) 0%, transparent 35% 65%, var(--bg) 100%); }
+.art-note { position: absolute; right: 28px; bottom: 14px; z-index: 2; font-size: 21px;
+  transform: rotate(-2deg); }
 
 /* why hire me */
 .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
@@ -353,8 +393,15 @@ section { padding: 88px 0; border-top: 1px solid var(--line-soft); }
 
 /* projects */
 .case { background: var(--panel); border: 1px solid var(--line-soft); border-radius: 10px;
-  padding: 34px; margin-bottom: 22px; transition: border-color .2s; }
+  padding: 34px; margin-bottom: 22px; transition: border-color .2s; overflow: hidden; }
 .case:hover { border-color: var(--line); }
+.case-art { margin: -34px -34px 28px; height: 190px; position: relative; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 100%, rgba(232,168,76,0.05), transparent 70%); }
+.case-art .three-scene { transition: transform .8s cubic-bezier(.22,.9,.35,1); }
+.case:hover .case-art .three-scene { transform: scale(1.07); }
+.case-art::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(11,13,18,0.1) 0%, rgba(16,19,27,0.35) 60%, var(--panel) 100%); }
+@media (max-width: 760px) { .case-art { height: 140px; } }
 .case-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 14px; justify-content: space-between; }
 .case h3 { font-size: 24px; font-weight: 800; }
 .badge { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; color: var(--amber);
@@ -496,7 +543,7 @@ function Tilt({ children, max = 6 }) {
   );
 }
 
-function Reveal({ children, delay = 0 }) {
+function Reveal({ children, delay = 0, dir = "up" }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
@@ -509,10 +556,71 @@ function Reveal({ children, delay = 0 }) {
     return () => obs.disconnect();
   }, []);
   return (
-    <div ref={ref} className="rv" style={{ transitionDelay: `${delay}ms` }}>
+    <div ref={ref} className={`rv${dir !== "up" ? ` rv-${dir}` : ""}`} style={{ transitionDelay: `${delay}ms` }}>
       {children}
     </div>
   );
+}
+
+function ScrollProgress() {
+  const ref = useRef(null);
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const h = document.documentElement;
+      const p = h.scrollTop / Math.max(h.scrollHeight - h.clientHeight, 1);
+      if (ref.current) ref.current.style.transform = `scaleX(${p})`;
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+    return () => { window.removeEventListener("scroll", onScroll); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+  return <div ref={ref} className="scroll-progress" aria-hidden="true" />;
+}
+
+function ArtBand({ variant, note, height = 230 }) {
+  return (
+    <div className="art-band" style={{ height }}>
+      <Suspense fallback={null}><ThreeScene variant={variant} className="art-band-img" /></Suspense>
+      {note && <span className="hand art-note">{note}</span>}
+    </div>
+  );
+}
+
+function CountUp({ value, duration = 1500 }) {
+  const ref = useRef(null);
+  const [disp, setDisp] = useState(value);
+  useEffect(() => {
+    const el = ref.current;
+    const m = String(value).match(/^([^\d]*)([\d,]+(?:\.\d+)?)(.*)$/);
+    if (!el || !m || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisp(value);
+      return;
+    }
+    const target = parseFloat(m[2].replace(/,/g, ""));
+    const decimals = (m[2].split(".")[1] || "").length;
+    const grouped = m[2].includes(",");
+    const fmt = (n) =>
+      m[1] + (grouped ? Number(n.toFixed(decimals)).toLocaleString("en-US") : n.toFixed(decimals)) + m[3];
+    setDisp(fmt(0));
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      obs.disconnect();
+      const t0 = performance.now();
+      const tick = (now) => {
+        const p = Math.min((now - t0) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        setDisp(fmt(target * eased));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [value, duration]);
+  return <span ref={ref}>{disp}</span>;
 }
 
 function TypedConsole() {
@@ -641,6 +749,7 @@ export default function Portfolio() {
   return (
     <div className="app">
       <style>{CSS}</style>
+      <ScrollProgress />
       <Spotlight />
 
       {/* NAV */}
@@ -660,6 +769,7 @@ export default function Portfolio() {
 
       {/* HERO */}
       <header className="hero" id="top">
+        <Suspense fallback={null}><ThreeScene variant="waves" className="hero-art" /></Suspense>
         <div className="orb" aria-hidden="true" />
         <div style={{ height: 59 }} />
         <div className="ticker">
@@ -700,6 +810,9 @@ export default function Portfolio() {
                 <a className="btn" href={LINKS.resumePdf} target="_blank" rel="noreferrer"><Download size={14} /> Download resume</a>
                 <a className="btn" href="#contact"><Mail size={14} /> Contact me</a>
               </div>
+              <div className="hand" style={{ marginTop: 14, transform: "rotate(-1.5deg)", display: "inline-block" }}>
+                ↑ the resume is genuinely one click. no email gate, promise.
+              </div>
               <div className="hero-icons">
                 <a href={LINKS.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={19} /></a>
                 <a href={LINKS.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={19} /></a>
@@ -722,7 +835,7 @@ export default function Portfolio() {
             </div>
           </Reveal>
           <div className="why-grid">
-            <Reveal>
+            <Reveal dir="left">
               <Tilt max={4}><div className="why-card" style={{height:"100%"}}>
                 <Server className="ic" size={22} />
                 <h3>Already shipped to production</h3>
@@ -738,7 +851,7 @@ export default function Portfolio() {
                 <div className="pf">proof: Microsoft · IIIT Delhi · Plaksha · PCTE</div>
               </div></Tilt>
             </Reveal>
-            <Reveal delay={180}>
+            <Reveal delay={180} dir="right">
               <Tilt max={4}><div className="why-card" style={{height:"100%"}}>
                 <ShieldCheck className="ic" size={22} />
                 <h3>Security-minded by default</h3>
@@ -762,11 +875,11 @@ export default function Portfolio() {
           </Reveal>
           <div className="dash">
             {METRICS.map((m, i) => (
-              <Reveal key={m.k} delay={i * 70}>
+              <Reveal key={m.k} delay={i * 70} dir="zoom">
                 <Tilt>
                   <div className="metric">
                     <div className="lbl"><m.icon size={13} /> {m.label}</div>
-                    <div className="val">{m.value}</div>
+                    <div className="val"><CountUp value={m.value} /></div>
                     <div className="sub">{m.sub}</div>
                   </div>
                 </Tilt>
@@ -779,6 +892,8 @@ export default function Portfolio() {
         </div>
       </section>
 
+      <ArtBand variant="warp" note="scroll faster — the stars notice" />
+
       {/* PROJECTS */}
       <section id="projects">
         <div className="wrap">
@@ -790,8 +905,13 @@ export default function Portfolio() {
             </div>
           </Reveal>
           {PROJECTS.map((p, i) => (
-            <Reveal key={p.id} delay={i * 60}>
+            <Reveal key={p.id} delay={i * 60} dir={i % 2 ? "right" : "left"}>
               <article className="case">
+                {p.artVariant && (
+                  <div className="case-art">
+                    <Suspense fallback={null}><ThreeScene variant={p.artVariant} /></Suspense>
+                  </div>
+                )}
                 <div className="case-top">
                   <div>
                     <h3>{p.name}</h3>
@@ -847,7 +967,7 @@ export default function Portfolio() {
           </Reveal>
           <div className="skill-grid">
             {SKILLS.map((s, i) => (
-              <Reveal key={s.group} delay={i * 55}>
+              <Reveal key={s.group} delay={i * 55} dir="zoom">
                 <div className="skill-card">
                   <div className="hd"><s.icon size={17} /> {s.group}</div>
                   <ul>{s.items.map((it) => <li key={it}>{it}</li>)}</ul>
@@ -869,7 +989,7 @@ export default function Portfolio() {
           </Reveal>
           <div className="tl">
             {TIMELINE.map((t, i) => (
-              <Reveal key={i} delay={i * 60}>
+              <Reveal key={i} delay={i * 60} dir="left">
                 <div className="tl-item">
                   <div className="when">{t.period}<span className="tl-tag">{t.tag}</span></div>
                   <h3>{t.title}</h3>
@@ -943,6 +1063,8 @@ export default function Portfolio() {
         </div>
       </section>
 
+      <ArtBand variant="planets" height={320} note="a tiny solar system, because why not" />
+
       {/* CONTACT / RESUME CENTER */}
       <section id="contact">
         <div className="wrap">
@@ -959,6 +1081,9 @@ export default function Portfolio() {
                 <a className="btn" href={LINKS.linkedin} target="_blank" rel="noreferrer"><Linkedin size={14} /> LinkedIn</a>
                 <a className="btn" href={LINKS.github} target="_blank" rel="noreferrer"><Github size={14} /> GitHub</a>
               </div>
+              <div className="hand" style={{ marginTop: 18, position: "relative", transform: "rotate(-1deg)" }}>
+                every email gets read by me, not a bot — usually same day
+              </div>
             </div>
           </Reveal>
         </div>
@@ -966,7 +1091,7 @@ export default function Portfolio() {
 
       <footer>
         <div className="wrap foot">
-          <span>© 2026 Agastsya Joshi. Built with React, deployed like everything else I ship: containerised.</span>
+          <span>© 2026 Agastsya Joshi. Designed and coded by hand in Delhi — no template. Deployed like everything else I ship: containerised.</span>
           <span>status: <span style={{ color: "var(--ok)" }}>operational</span></span>
         </div>
       </footer>
